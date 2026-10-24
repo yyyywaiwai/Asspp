@@ -201,6 +201,7 @@ class Downloads {
     }
 
     func delete(request: PackageManifest) {
+        guard !request.isDecrypting else { return }
         logger.info("deleting download request id: \(request.id)")
         DiggerManager.shared.cancelTask(for: request.url)
         registeredCallbacks.remove(request.id)
@@ -210,6 +211,7 @@ class Downloads {
     }
 
     func restart(request: PackageManifest) {
+        guard !request.isDecrypting else { return }
         logger.info("restarting download request id: \(request.id)")
         DiggerManager.shared.cancelTask(for: request.url)
         registeredCallbacks.remove(request.id)
@@ -219,6 +221,7 @@ class Downloads {
     }
 
     func removeAll() {
+        guard !manifests.contains(where: \.isDecrypting) else { return }
         manifests.forEach { $0.delete() }
         manifests.removeAll()
         registeredCallbacks.removeAll()

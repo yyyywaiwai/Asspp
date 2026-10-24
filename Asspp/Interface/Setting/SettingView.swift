@@ -15,6 +15,7 @@ import SwiftUI
 struct SettingView: View {
     @Environment(\.openURL) private var openURL
     @State private var vm = AppStore.this
+    @State private var downloads = Downloads.this
 
     @State private var showDeviceIdWarning = false
     @State private var editingDeviceId = false
@@ -45,11 +46,14 @@ struct SettingView: View {
                 Button("Delete All Downloads", role: .destructive) {
                     Downloads.this.removeAll()
                 }
+                .disabled(downloads.manifests.contains(where: \.isDecrypting))
             } header: {
                 Text("General")
             } footer: {
                 Text("Demo mode redacts all accounts and sensitive information.")
             }
+
+            DecryptionSettingsSection()
 
             Section {
                 Text(ProcessInfo.processInfo.hostName)
@@ -142,6 +146,7 @@ struct SettingView: View {
                 Button("Reset", role: .destructive) {
                     showResetConfirmation = true
                 }
+                .disabled(downloads.manifests.contains(where: \.isDecrypting))
             } header: {
                 Text("Danger Zone")
             } footer: {

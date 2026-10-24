@@ -7,7 +7,6 @@
 
 import Combine
 import Foundation
-import KeychainAccess
 
 protocol PersistProvider {
     func data(forKey: String) throws -> Data?
@@ -41,26 +40,6 @@ class FileStorage: PersistProvider {
         // Atomic write so a crash mid-write cannot truncate persisted state
         // (download manifests, settings) into an undecodable blob.
         try? data?.write(to: pathForKey(key), options: .atomic)
-    }
-}
-
-class KeychainStorage: PersistProvider {
-    private let keychain: Keychain
-
-    init(service: String) {
-        keychain = Keychain(service: service).synchronizable(true)
-    }
-
-    func data(forKey key: String) throws -> Data? {
-        try keychain.getData(key)
-    }
-
-    func set(_ data: Data?, forKey key: String) throws {
-        if let data {
-            try keychain.set(data, key: key)
-        } else {
-            try keychain.remove(key)
-        }
     }
 }
 

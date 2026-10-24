@@ -1,5 +1,5 @@
 {
-  "originHash" : "86e6fc1bbfdf6ad53749b0c1f573995380840323103579bfac9d87fdc5f195ad",
+  "originHash" : "c32850ce5e9aa85fe8772361f8f72990ab1e76d28fd405636e52b094e38eb4fe",
   "pins" : [
     {
       "identity" : "anycodable",
@@ -83,12 +83,11 @@
       }
     },
     {
-      "identity" : "keychainaccess",
+      "identity" : "fairdeckit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kishikawakatsumi/KeychainAccess.git",
+      "location" : "https://github.com/yyyywaiwai/FairDecKit.git",
       "state" : {
-        "revision" : "84e546727d66f1adc5439debad16270d0fdd04e7",
-        "version" : "4.2.2"
+        "revision" : "1ba05f83e660343f7dbe13decaaf8872f689009c"
       }
     },
     {

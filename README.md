@@ -44,6 +44,27 @@ Fork this repository to automatically build and sign the app with your own devel
 
     > These steps follow macOS Gatekeeper practices and help minimize security risks while allowing you to run unsigned or self-signed apps.
 
+## FairPlay decryption (iOS and macOS)
+
+1. In **Settings → FairPlay Decryption**, import the matching 16-byte `credential.bin`.
+2. Open a completed package in **Downloads** and select **Decrypt IPA**.
+3. Use **Share Decrypted IPA** to export the copy; macOS also offers **Show Decrypted IPA in Finder**.
+
+The credential is stored only in this device's Keychain, without iCloud synchronization.
+Without a valid imported credential the decryption action is disabled. A 16-byte file still
+needs to match the IPA; a mismatch reports an error without changing the original.
+The original IPA remains the source for installation. Decrypted copies require separate
+signing before installation and are removed together with their download. Keep Asspp open
+while decryption runs. Processing uses [FairDecKit](https://github.com/yyyywaiwai/FairDecKit)
+in low-memory mode; no external process or credential upload is involved.
+
+Unsigned/ad-hoc macOS builds use the local login Keychain. Builds with a signing team and
+Keychain access continue to use the synchronized Data Protection Keychain for accounts.
+Changing signing identity/storage mode may require signing in again; existing items are not deleted.
+
+Run the integration/storage checks after resolving the workspace packages:
+`Resources/Scripts/check.decryption.sh` (or set `FAIRDECKIT_PATH` to a local FairDecKit checkout).
+
 ## 🛠 Requirements
 
 - **iOS**: iOS 17.0 or later.
@@ -88,3 +109,17 @@ MIT License. See [LICENSE](./LICENSE) for details.
 Copyright © 2025 Lakr Aream. All Rights Reserved.
 
 <img src="./Artworks/fable5.jpg" alt="Fable 5 Verified" width="240">
+
+### Store download protocol / local build preparation
+
+App Store downloads use `ent/download` with locally generated kbsync on macOS and
+iOS. This does not require importing a FairDecKit decryption credential. Before
+opening `Asspp.xcworkspace`, install Go/CMake/Ninja/xcbeautify and run:
+
+```sh
+bash Resources/Scripts/prepare.kbsync.sh
+```
+
+See [StoreKBSync](Packages/StoreKBSync/README.md) for pinned runtime sources,
+checks and important dependency/Apple-image distribution licensing caveats, and
+[download diagnostics](Resources/Document/STORE_DOWNLOADS.md) for the protocol.

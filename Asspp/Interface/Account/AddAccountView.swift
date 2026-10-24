@@ -61,7 +61,11 @@ struct AddAccountView: View {
                     .disabled(password.isEmpty)
                 }
             } footer: {
+                #if os(macOS)
+                    Text("Accounts are saved in Keychain. iCloud sync requires a signed build with Keychain access.")
+                #else
                 Text("Your account is saved in your Keychain and will be synced across devices with the same iCloud account signed in.")
+                #endif
             }
             if codeRequired {
                 Section {

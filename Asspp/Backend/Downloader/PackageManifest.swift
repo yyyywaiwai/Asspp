@@ -28,6 +28,7 @@ class PackageManifest: Identifiable, Codable, Hashable, Equatable {
     @ObservationIgnored private(set) var creation: Date
 
     var state: PackageState = .init()
+    var isDecrypting = false
 
     var targetLocation: URL {
         packagesDir
@@ -39,6 +40,11 @@ class PackageManifest: Identifiable, Codable, Hashable, Equatable {
 
     var completed: Bool {
         state.status == .completed
+    }
+
+    var decryptedLocation: URL {
+        targetLocation.deletingPathExtension()
+            .appendingPathExtension("decrypted.ipa")
     }
 
     func waitForCompletion(timeout: TimeInterval? = nil) async {
@@ -114,6 +120,7 @@ class PackageManifest: Identifiable, Codable, Hashable, Equatable {
 extension PackageManifest {
     func delete() {
         try? FileManager.default.removeItem(at: targetLocation)
+        try? FileManager.default.removeItem(at: decryptedLocation)
         var cleanUpDir = targetLocation.deletingLastPathComponent()
         do {
             while FileManager.default.fileExists(atPath: cleanUpDir.path),

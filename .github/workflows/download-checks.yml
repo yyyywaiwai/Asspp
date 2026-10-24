@@ -13,3 +13,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check fallback, response validation and localization
         run: bash Resources/Scripts/check.downloads.sh
+      - name: Check pinned asset extraction offline
+        run: python3 Resources/Tests/KBSyncAssetChecks.py

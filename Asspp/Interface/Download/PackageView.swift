@@ -66,6 +66,7 @@ struct PackageView: View {
             }
 
             if pkg.completed {
+                DecryptionSection(package: pkg)
                 #if os(macOS)
                     DeviceCTLInstallSection(package: pkg)
                 #endif
@@ -189,6 +190,7 @@ struct PackageView: View {
                     dismiss()
                 }
                 .foregroundStyle(label.isDestructive ? .red : .primary)
+                .disabled(pkg.isDecrypting)
             } header: {
                 Text("Danger Zone")
             } footer: {

@@ -33,7 +33,7 @@ enum StoreDownloadError: LocalizedError {
     }
 }
 
-/// Response classification and request rules without credentials or networking.
+/// Response classification and pure request rules without account access or networking.
 enum StoreDownloadProtocol {
     static func isMainInfoPlist(_ path: String) -> Bool {
         let components = path.split(separator: "/", omittingEmptySubsequences: false)
@@ -75,10 +75,10 @@ enum StoreDownloadProtocol {
     }
 
     enum Endpoint: String {
-        case volumeStore, redownload, update
+        case volumeStore, redownload, update, entDownload
 
         var versionKey: String {
-            self == .volumeStore ? "externalVersionId" : "appExtVrsId"
+            self == .volumeStore || self == .entDownload ? "externalVersionId" : "appExtVrsId"
         }
 
         var path: String {
@@ -86,11 +86,13 @@ enum StoreDownloadProtocol {
             case .volumeStore: "/WebObjects/MZFinance.woa/wa/volumeStoreDownloadProduct"
             case .redownload: "/r/redownload"
             case .update: "/up/updateProduct"
+            case .entDownload: "/WebObjects/DownloadDispatch.woa/wa/ent/download"
             }
         }
     }
 
-    static func validatedURL(_ url: URL) throws -> URL {
+    /// Supply the previous URL for manual redirects; ent/download permits none.
+    static func validatedURL(_ url: URL, redirectFrom source: URL? = nil) throws -> URL {
         let host = url.host?.lowercased() ?? ""
         let storeHost = host == "buy.itunes.apple.com"
             || host.range(of: #"^p[0-9]+-buy\.itunes\.apple\.com$"#, options: .regularExpression) != nil
@@ -98,17 +100,90 @@ enum StoreDownloadProtocol {
         guard url.scheme == "https", url.user == nil, url.password == nil,
               url.fragment == nil, url.port == nil || url.port == 443,
               (storeHost && storePath) || (host == "downloaddispatch.itunes.apple.com"
-                  && [Endpoint.redownload.path, Endpoint.update.path].contains(url.path))
+                  && [Endpoint.redownload.path, Endpoint.update.path, Endpoint.entDownload.path].contains(url.path))
         else { throw StoreDownloadError.invalidRedirect }
+        if url.path == Endpoint.entDownload.path {
+            guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+                  components.percentEncodedHost?.lowercased() == "downloaddispatch.itunes.apple.com",
+                  components.percentEncodedPath == Endpoint.entDownload.path, url.port == nil
+            else { throw StoreDownloadError.invalidRedirect }
+            // Bag endpoints have no query; requests add only the validated device GUID.
+            if let query = components.percentEncodedQuery {
+                guard query.hasPrefix("guid="), (try? hardwareID(guid: String(query.dropFirst(5)))) != nil
+                else { throw StoreDownloadError.invalidRedirect }
+            }
+        }
+        if let source {
+            _ = try validatedURL(source)
+            // X-Token must never be forwarded, including same-origin or same-URL redirects.
+            guard source.path != Endpoint.entDownload.path, url.path != Endpoint.entDownload.path
+            else { throw StoreDownloadError.invalidRedirect }
+        }
         return url
     }
 
+    /// Legacy request format; ent/download requires entPayload instead.
     static func payload(endpoint: Endpoint, appID: Int64, guid: String, version: String?) -> [String: Any] {
         var result: [String: Any] = ["creditDisplay": "", "guid": guid, "salableAdamId": appID, "serialNumber": "0"]
         if let version, !version.isEmpty {
             result[endpoint.versionKey] = version
         }
         return result
+    }
+
+    enum EntRequestError: Error {
+        case invalidGUID, invalidDSID, invalidAppID, invalidVersion, invalidKBSync, invalidHeaders
+    }
+
+    static func hardwareID(guid: String) throws -> Data {
+        guard guid.utf8.count == 12, guid.allSatisfy({ $0.isASCII && $0.isHexDigit })
+        else { throw EntRequestError.invalidGUID }
+        let characters = Array(guid)
+        return Data(stride(from: 0, to: 12, by: 2).map {
+            UInt8(String(characters[$0 ... $0 + 1]), radix: 16)!
+        })
+    }
+
+    static func dsid(_ value: String) throws -> UInt64 {
+        guard !value.isEmpty, value.allSatisfy({ $0.isASCII && $0.isNumber }),
+              let result = UInt64(value), result != 0
+        else { throw EntRequestError.invalidDSID }
+        return result
+    }
+
+    static func entPayload(appID: Int64, guid: String, version: String, kbsync: String) throws -> [String: Any] {
+        let hardwareID = try hardwareID(guid: guid)
+        guard appID > 0 else { throw EntRequestError.invalidAppID }
+        guard !version.isEmpty, version.allSatisfy({ $0.isASCII && $0.isNumber }),
+              version.contains(where: { $0 != "0" })
+        else { throw EntRequestError.invalidVersion }
+        guard let blob = Data(base64Encoded: kbsync), !blob.isEmpty, blob.count <= 64 * 1024, blob.base64EncodedString() == kbsync
+        else { throw EntRequestError.invalidKBSync }
+        let serial = Data([0x54, 0xc8, 0xb0, 0xa9, 0x88]) + hardwareID.dropFirst(2)
+        return [
+            "creditDisplay": "", "guid": guid, "kbsync": kbsync,
+            "salableAdamId": String(appID), "serialNumber": serial.base64EncodedString(),
+            "externalVersionId": version,
+        ]
+    }
+
+    /// Merge with the existing DSID headers; the body remains an XML plist, not form data.
+    static func entHeaders(store: String, token: String) throws -> [String: String] {
+        guard [store, token].allSatisfy({ !$0.isEmpty && $0.utf8.allSatisfy { (0x21 ... 0x7E).contains($0) } })
+        else { throw EntRequestError.invalidHeaders }
+        return [
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+            "User-Agent": "Configurator/2.18 (Macintosh; OS X 15.3.2; 24D81) AppleWebKit/0620.2.4.11.6",
+            "X-Apple-Store-Front": store, "X-Token": token,
+        ]
+    }
+
+    static func shouldRefreshKBSync(_ error: Error) -> Bool {
+        switch error {
+        case StoreDownloadError.response(401), StoreDownloadError.response(403),
+             StoreDownloadError.emptyResponse(401), StoreDownloadError.emptyResponse(403): true
+        default: false
+        }
     }
 
     static func failureCode(_ response: [String: Any]) -> String {

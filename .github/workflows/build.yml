@@ -45,6 +45,12 @@ jobs:
       - name: Ensure iOS platform is installed
         run: xcodebuild -downloadPlatform iOS || true
 
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: Packages/StoreKBSync/Native/go.mod
+      - name: Install kbsync build tools
+        run: brew install cmake ninja xcbeautify
+
       - name: Install Procursus
         uses: dhinakg/procursus-action@main
         with:
@@ -95,6 +101,12 @@ jobs:
           echo "Selected Xcode $best_ver at $best_path"
           sudo xcode-select -s "$best_path"
           xcodebuild -version
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: Packages/StoreKBSync/Native/go.mod
+      - name: Install kbsync build tools
+        run: brew install cmake ninja xcbeautify
 
       - name: Install Procursus
         uses: dhinakg/procursus-action@main

@@ -14,6 +14,8 @@ cd $SRCROOT
 git clean -fdx -f
 git reset --hard
 
+bash "$SRCROOT/Resources/Scripts/prepare.kbsync.sh"
+
 # Generate Developer.xcconfig for CI (codesign completely disabled)
 cat >"$SRCROOT/Configuration/Developer.xcconfig" <<'EOF'
 // CI-generated Developer.xcconfig

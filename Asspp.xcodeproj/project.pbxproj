@@ -21,8 +21,9 @@
 		50D44D512C3FC85F00CF6A69 /* AnyCodable in Frameworks */ = {isa = PBXBuildFile; productRef = 50D44D502C3FC85F00CF6A69 /* AnyCodable */; };
 		50DCBD782F346E01007100D2 /* Certificates in Resources */ = {isa = PBXBuildFile; fileRef = 50DCBD772F346DFE007100D2 /* Certificates */; };
 		50E28B812C40BA52007891E0 /* ColorfulX in Frameworks */ = {isa = PBXBuildFile; productRef = 50E28B802C40BA52007891E0 /* ColorfulX */; };
-		80CD64ED2C42AA2C0073E206 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 80CD64EC2C42AA2C0073E206 /* KeychainAccess */; };
+		80CD64ED2C42AA2C0073E206 /* FairDecKit in Frameworks */ = {isa = PBXBuildFile; productRef = 80CD64EC2C42AA2C0073E206 /* FairDecKit */; };
 		E20AB0982C78DD66AF202F7C /* LookInsideServer in Frameworks */ = {isa = PBXBuildFile; productRef = A57ACB25387C8C8F3E31EC36 /* LookInsideServer */; };
+		C7F777012C42AA2C0073E206 /* StoreKBSync in Frameworks */ = {isa = PBXBuildFile; productRef = C7F777022C42AA2C0073E206 /* StoreKBSync */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,7 +67,8 @@
 				50ABFE1F2F48AAE50077DE1A /* ButtonKit in Frameworks */,
 				50D44D512C3FC85F00CF6A69 /* AnyCodable in Frameworks */,
 				50D44D192C3F92A100CF6A69 /* ApplePackage in Frameworks */,
-				80CD64ED2C42AA2C0073E206 /* KeychainAccess in Frameworks */,
+				80CD64ED2C42AA2C0073E206 /* FairDecKit in Frameworks */,
+				C7F777012C42AA2C0073E206 /* StoreKBSync in Frameworks */,
 				50D44D1C2C3F92BB00CF6A69 /* NIO in Frameworks */,
 				50D44D202C3F92BB00CF6A69 /* NIOTLS in Frameworks */,
 				E20AB0982C78DD66AF202F7C /* LookInsideServer in Frameworks */,
@@ -132,7 +134,8 @@
 				50D44D502C3FC85F00CF6A69 /* AnyCodable */,
 				50D0C8B72C40187800538F49 /* Vapor */,
 				50E28B802C40BA52007891E0 /* ColorfulX */,
-				80CD64EC2C42AA2C0073E206 /* KeychainAccess */,
+				80CD64EC2C42AA2C0073E206 /* FairDecKit */,
+				C7F777022C42AA2C0073E206 /* StoreKBSync */,
 				50D262932E77D63B00FF8813 /* Logging */,
 				507974622E784D4E0016F540 /* Digger */,
 				50ABFB112F48A6D60077DE1A /* ApplePackage */,
@@ -169,13 +172,14 @@
 			);
 			mainGroup = 50D44CF92C3F91F700CF6A69;
 			packageReferences = (
+				C7F777032C42AA2C0073E206 /* XCLocalSwiftPackageReference "Packages/StoreKBSync" */,
 				50D44D1A2C3F92BB00CF6A69 /* XCRemoteSwiftPackageReference "swift-nio" */,
 				50D44D212C3F92C500CF6A69 /* XCRemoteSwiftPackageReference "swift-nio-ssl" */,
 				50D44D3D2C3FA59500CF6A69 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				50D44D4F2C3FC85F00CF6A69 /* XCRemoteSwiftPackageReference "AnyCodable" */,
 				50D0C8B62C40187800538F49 /* XCRemoteSwiftPackageReference "vapor" */,
 				50E28B7F2C40BA52007891E0 /* XCRemoteSwiftPackageReference "ColorfulX" */,
-				80CD64EB2C42AA2C0073E206 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				80CD64EB2C42AA2C0073E206 /* XCRemoteSwiftPackageReference "FairDecKit" */,
 				50D262922E77D63B00FF8813 /* XCRemoteSwiftPackageReference "swift-log" */,
 				507974612E784D4E0016F540 /* XCRemoteSwiftPackageReference "Digger" */,
 				50ABFB102F48A6D60077DE1A /* XCRemoteSwiftPackageReference "ApplePackage" */,
@@ -401,6 +405,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		C7F777032C42AA2C0073E206 /* XCLocalSwiftPackageReference "Packages/StoreKBSync" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/StoreKBSync;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		507974612E784D4E0016F540 /* XCRemoteSwiftPackageReference "Digger" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -482,12 +493,12 @@
 				minimumVersion = 6.0.2;
 			};
 		};
-		80CD64EB2C42AA2C0073E206 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+		80CD64EB2C42AA2C0073E206 /* XCRemoteSwiftPackageReference "FairDecKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			repositoryURL = "https://github.com/yyyywaiwai/FairDecKit.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.2.2;
+				kind = revision;
+				revision = 1ba05f83e660343f7dbe13decaaf8872f689009c;
 			};
 		};
 		82E7AE7277E13A750B401DE9 /* XCRemoteSwiftPackageReference "LookInside-Release" */ = {
@@ -565,15 +576,20 @@
 			package = 50E28B7F2C40BA52007891E0 /* XCRemoteSwiftPackageReference "ColorfulX" */;
 			productName = ColorfulX;
 		};
-		80CD64EC2C42AA2C0073E206 /* KeychainAccess */ = {
+		80CD64EC2C42AA2C0073E206 /* FairDecKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 80CD64EB2C42AA2C0073E206 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
-			productName = KeychainAccess;
+			package = 80CD64EB2C42AA2C0073E206 /* XCRemoteSwiftPackageReference "FairDecKit" */;
+			productName = FairDecKit;
 		};
 		A57ACB25387C8C8F3E31EC36 /* LookInsideServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 82E7AE7277E13A750B401DE9 /* XCRemoteSwiftPackageReference "LookInside-Release" */;
 			productName = LookInsideServer;
+		};
+		C7F777022C42AA2C0073E206 /* StoreKBSync */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C7F777032C42AA2C0073E206 /* XCLocalSwiftPackageReference "Packages/StoreKBSync" */;
+			productName = StoreKBSync;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

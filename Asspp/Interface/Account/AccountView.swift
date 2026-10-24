@@ -150,7 +150,11 @@ struct AccountView: View {
                             } header: {
                                 Text("Apple IDs")
                             } footer: {
+                                #if os(macOS)
+                                    Text("Accounts are saved in Keychain. iCloud sync requires a signed build with Keychain access.")
+                                #else
                                 Text("Your accounts are saved in your Keychain and will be synced across devices with the same iCloud account signed in.")
+                                #endif
                             }
                         }
                         .formStyle(.grouped)

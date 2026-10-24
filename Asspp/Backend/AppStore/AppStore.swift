@@ -108,6 +108,7 @@ class AppStore {
                 try _accounts.setAndSave(updatedAccounts)
             }
         } catch {
+            logger.error("failed to save account to Keychain (\((error as NSError).domain), \((error as NSError).code))")
             throw AccountStorageError()
         }
         return account

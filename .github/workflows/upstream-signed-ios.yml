@@ -318,6 +318,17 @@ jobs:
             echo "build_number=${GITHUB_RUN_NUMBER}"
           } >> "$GITHUB_OUTPUT"
 
+      - uses: actions/setup-go@v5
+        if: hashFiles('source/Packages/StoreKBSync/Native/go.mod') != ''
+        with:
+          go-version-file: source/Packages/StoreKBSync/Native/go.mod
+      - name: Prepare local kbsync runtime
+        if: hashFiles('source/Resources/Scripts/prepare.kbsync.sh') != ''
+        working-directory: source
+        run: |
+          brew install cmake ninja xcbeautify
+          bash Resources/Scripts/prepare.kbsync.sh
+
       - name: Archive iOS app
         working-directory: source
         env:

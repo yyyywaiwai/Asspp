@@ -3061,6 +3061,261 @@
           }
         }
       }
+    },
+    "Accounts are saved in Keychain. iCloud sync requires a signed build with Keychain access." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accounts are saved in Keychain. iCloud sync requires a signed build with Keychain access."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "账户保存在钥匙串中。iCloud 同步需要具有钥匙串访问权限的签名版本。"
+          }
+        }
+      }
+    },
+    "Credential imported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credential imported"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已导入凭据"
+          }
+        }
+      }
+    },
+    "No credential imported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No credential imported"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未导入凭据"
+          }
+        }
+      }
+    },
+    "Import credential.bin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import credential.bin"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入 credential.bin"
+          }
+        }
+      }
+    },
+    "Remove Credential" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove Credential"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除凭据"
+          }
+        }
+      }
+    },
+    "FairPlay Decryption" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FairPlay Decryption"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FairPlay 解密"
+          }
+        }
+      }
+    },
+    "Import the 16-byte credential.bin for your IPA. It is stored in Keychain on this device, not synced. Decryption is disabled without a credential." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import the 16-byte credential.bin for your IPA. It is stored in Keychain on this device, not synced. Decryption is disabled without a credential."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请导入与 IPA 对应的 16 字节 credential.bin。凭据仅存储在此设备的钥匙串中，不会同步。未导入凭据时，解密功能不可用。"
+          }
+        }
+      }
+    },
+    "Credential Import Failed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credential Import Failed"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "凭据导入失败"
+          }
+        }
+      }
+    },
+    "credential.bin must contain exactly 16 bytes." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "credential.bin must contain exactly 16 bytes."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "credential.bin 必须恰好包含 16 字节。"
+          }
+        }
+      }
+    },
+    "Decrypt IPA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decrypt IPA"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解密 IPA"
+          }
+        }
+      }
+    },
+    "Decrypting IPA…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decrypting IPA…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在解密 IPA…"
+          }
+        }
+      }
+    },
+    "Share Decrypted IPA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share Decrypted IPA"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享已解密的 IPA"
+          }
+        }
+      }
+    },
+    "Show Decrypted IPA in Finder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Decrypted IPA in Finder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在访达中显示已解密的 IPA"
+          }
+        }
+      }
+    },
+    "Import credential.bin in Settings to enable decryption." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import credential.bin in Settings to enable decryption."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在设置中导入 credential.bin 以启用解密功能。"
+          }
+        }
+      }
+    },
+    "The original IPA is preserved. Decrypted copies need signing before installation. Keep the app open until decryption finishes." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The original IPA is preserved. Decrypted copies need signing before installation. Keep the app open until decryption finishes."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始 IPA 会被保留。解密后的副本需要重新签名才能安装。请保持应用打开，直到解密完成。"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

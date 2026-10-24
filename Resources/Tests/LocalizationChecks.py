@@ -13,7 +13,7 @@ strings = json.loads(catalog.read_text())["strings"]
 keys = set()
 for filename in sys.argv[1:]:
     source = (root / filename).read_text()
-    for literal in re.findall(r'(?:String\(localized: |(?:Text|TextField|SecureField)\()"((?:\\.|[^"\\])*)"', source):
+    for literal in re.findall(r'(?:String\(localized: |(?:Text|TextField|SecureField|Button|Label|\.alert)\()"((?:\\.|[^"\\])*)"', source):
         key = re.sub(r'\\\((\w+)\)', lambda match: "%lld" if match[1] == "status" else "%@", literal)
         keys.add(key.replace(r'\n', '\n').replace(r'\"', '"'))
 assert keys, "No localized strings were selected"

@@ -80,10 +80,15 @@ SwiftUI views organized by feature: Account, Search, Download, Installed (macOS 
 - **Digger** — Download manager with progress/speed tracking
 - **Kingfisher** — Async image loading
 - **ColorfulX** — Gradient animations (welcome screen)
-- **KeychainAccess** — Keychain storage for accounts
+- **FairDecKit** — In-process IPA decryption with a device-local credential in Keychain
 - **AnyCodable** — Type-erased Codable values
 - **ButtonKit** — Async button actions
 - **swift-log** — Structured logging (`logger` global)
+
+Keychain storage uses Security directly. Unsigned/ad-hoc macOS builds use the login
+Keychain; entitled signed builds retain synchronized account storage. Credentials never sync.
+`Resources/Scripts/check.decryption.sh` checks credential handling, synthetic IPA decryption,
+output/original preservation and native macOS Keychain persistence without real accounts.
 
 ## Swift Code Style
 
@@ -92,3 +97,12 @@ SwiftUI views organized by feature: Account, Search, Download, Installed (macOS 
 - **Structure**: Early returns, guard statements for unwrapping, single responsibility per extension.
 - **Modern Swift**: `@Observable` macro, `async/await`, `@MainActor`, opaque `some` types.
 - **Memory**: `weak`/`unowned` references to break cycles, capture lists in closures.
+
+
+## Local kbsync build prerequisite
+
+Before resolving/building the workspace, run `bash Resources/Scripts/prepare.kbsync.sh`
+(requires Go 1.25+, CMake, Ninja and xcbeautify). It prepares ignored XCFrameworks
+and checksum-pinned Apple runtime resources for the local `Packages/StoreKBSync`
+package. Never commit generated Apple images, real kbsync blobs or account data.
+See the package README for source/license and distribution caveats.
